@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: 
+      WORDPRESS_DB_NAME: 
+      WORDPRESS_DB_USER: 
+      WORDPRESS_DB_PASSWORD: 
+    command: >
+      bash -c "sed -i '/^\/\* That/a\
+      define(\"MYSQL_CLIENT_FLAGS\", MYSQLI_CLIENT_SSL);\
+      define(\"MYSQL_SSL_CA\", \"/ssl_certs/ca-certificates.crt\");\
+      define(\"DB_COLLATE\", \"utf8mb4_bin\");' /var/www/html/wp-config.php &&
+      docker-entrypoint.sh apache2-foreground"
